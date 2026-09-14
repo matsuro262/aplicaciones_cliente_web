@@ -1,0 +1,80 @@
+/*Hoja de estilos - Hoja de Vida Personal*/
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  color: #333333;
+}
+
+#contenedor {
+  width: 800px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  padding: 20px;
+}
+
+/*Datos personales*/
+#datos-personales {
+  text-align: center;
+  background-color: #1b2a4a;
+  color: #ffffff;
+  padding: 20px;
+}
+
+#foto-perfil {
+  width: 150px;
+  height: 150px;
+  border: 3px solid #f4a300;
+  border-radius: 50%;
+}
+
+#datos-personales h2 {
+  color: #f4a300;
+}
+
+/*Secciones*/
+.seccion {
+  padding: 15px 10px;
+  border-bottom: 1px solid #dddddd;
+}
+
+.seccion h2 {
+  color: #1b2a4a;
+  border-bottom: 2px solid #f4a300;
+  display: inline-block;
+}
+
+.item {
+  margin-bottom: 15px;
+}
+
+.item h3 {
+  color: #1b2a4a;
+  margin-bottom: 4px;
+}
+
+/*Tabla de referencias*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #cccccc;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #1b2a4a;
+  color: #ffffff;
+}
+
+/*Pie de página*/
+#pie {
+  text-align: center;
+  font-size: 0.8em;
+  color: #888888;
+}
