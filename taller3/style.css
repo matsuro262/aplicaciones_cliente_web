@@ -1,0 +1,125 @@
+/* 1. Reseteo de estilos básicos y tipografía moderna */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 2. Fondo de la página centrado con degradado carmesí sutil */
+body {
+    background: linear-gradient(135deg, #fcebeb, #f3d1d1);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 3. Tarjeta contenedora principal */
+.contenedor {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(165, 42, 42, 0.15);
+    width: 100%;
+    max-width: 420px;
+    border-top: 5px solid #a51d24; /* Línea decorativa carmesí */
+}
+
+/* 4. Título principal */
+h1 {
+    color: #800020; /* Tono Borgoña */
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Subtítulo de resultados */
+h3 {
+    color: #a51d24; /* Rojo Carmesí */
+    font-size: 15px;
+    margin: 20px 0 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 600;
+}
+
+/* Separador horizontal */
+hr {
+    border: none;
+    border-top: 1px solid #f3d1d1;
+    margin: 25px 0 10px 0;
+}
+
+/* 5. Estructura de cada fila/campo */
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+/* Etiquetas de texto */
+.campo label {
+    font-size: 14px;
+    color: #5c6470;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+/* Inputs de entrada (Número 1 y Número 2) */
+.campo input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2cbd1; /* Borde con sutil matiz rojizo */
+    border-radius: 8px;
+    font-size: 16px;
+    color: #2d3748;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+/* Efecto al dar clic en los inputs de entrada */
+.campo input[type="number"]:focus {
+    border-color: #dc143c; /* Resonancia en Carmesí brillante */
+    box-shadow: 0 0 0 4px rgba(220, 20, 60, 0.15);
+}
+
+/* 6. Estilos exclusivos para los inputs de RESULTADO (Readonly) */
+.campo input[readonly] {
+    background-color: #fff5f5; /* Fondo rosado/carmesí muy suave */
+    border: 1px dashed #e2cbd1;
+    color: #800020; /* Texto en borgoña para alta legibilidad */
+    font-weight: 600;
+    cursor: not-allowed;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+/* 7. Botón único de Calcular en Rojo Carmesí */
+#calcularTodo {
+    width: 100%;
+    padding: 14px;
+    background-color: #dc143c; /* Rojo Carmesí */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+    margin-top: 10px;
+}
+
+/* Efectos interactivos del botón */
+#calcularTodo:hover {
+    background-color: #a51d24; /* Carmesí más oscuro al pasar el mouse */
+}
+
+#calcularTodo:active {
+    transform: scale(0.98);
+}
