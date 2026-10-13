@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tareas>
+ <tarea codigo="1791907839255">
+ <titulo>Reconquistar Jerusalén</titulo>
+
+<descripcion>si</descripcion>
+ <fecha>13/10/2026</fecha>
+ </tarea>
+ <tarea codigo="1791907877556">
+ <titulo>Conquistar Roma</titulo>
+
+<descripcion>(de preferencia antes de las 12)</descripcion>
+ <fecha>13/10/2026</fecha>
+ </tarea>
+ <tarea codigo="1791907899028">
+ <titulo>Hacerse una hamburguesa</titulo>
+
+<descripcion>(con queso extra)</descripcion>
+ <fecha>13/10/2026</fecha>
+ </tarea>
+</tareas>
