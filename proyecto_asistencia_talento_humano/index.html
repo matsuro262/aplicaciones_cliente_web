@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de Asistencia - Talento Humano ULEAM</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!--VISTA 1: INICIO DE SESIÓN-->
+  <main id="vistaLogin" class="vista login-wrap">
+    <div class="login-card">
+      <div class="logo">ULEAM</div>
+      <h1>Sistema de Asistencia - Talento Humano ULEAM</h1>
+
+      <form id="formLogin" novalidate>
+        <div class="campo">
+          <label for="usuario">Usuario</label>
+          <input type="text" id="usuario" autocomplete="username">
+          <span class="error" id="errUsuario"></span>
+        </div>
+        <div class="campo">
+          <label for="clave">Contraseña</label>
+          <input type="password" id="clave" autocomplete="current-password">
+          <span class="error" id="errClave"></span>
+        </div>
+        <p class="alerta alerta-error" id="errLogin" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primario btn-block">Ingresar</button>
+      </form>
+
+      <details class="demo">
+        <summary>Usuarios de prueba</summary>
+        <table>
+          <thead><tr><th>Usuario</th><th>Rol</th></tr></thead>
+          <tbody>
+            <tr><td>mgonzalez</td><td>Docente</td></tr>
+            <tr><td>cmendoza</td><td>Administrativo</td></tr>
+            <tr><td>jcedeno</td><td>Limpieza</td></tr>
+            <tr><td>dandrade</td><td>Talento Humano (panel de gestión)</td></tr>
+          </tbody>
+        </table>
+        <p class="muted">Contraseña para todos: <strong>uleam2026</strong></p>
+      </details>
+    </div>
+  </main>
+
+  <!--VISTA 2: MARCACIÓN DE ASISTENCIA (EMPLEADO)-->
+  <div id="vistaEmpleado" class="vista" hidden>
+    <header class="topbar">
+      <h1>Mi asistencia</h1>
+      <div class="usuario-info">
+        <span class="avatar" id="empAvatar"></span>
+        <div>
+          <strong id="empNombre"></strong>
+          <small id="empRol"></small>
+        </div>
+        <button type="button" class="btn btn-secundario btn-chico" id="btnSalirEmp">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <main class="contenido">
+      <!-- Reloj y botones de marcación -->
+      <section class="card reloj-card">
+        <p class="muted" id="fechaActual"></p>
+        <p class="reloj" id="relojActual">00:00:00</p>
+        <p class="muted">Hora actual · Horario: <span id="horarioEmp"></span></p>
+
+        <div class="acciones">
+          <button type="button" class="btn btn-primario" id="btnEntrada">Marcar entrada</button>
+          <button type="button" class="btn btn-secundario" id="btnSalida">Marcar salida</button>
+        </div>
+        <p class="alerta" id="msgMarcacion" role="status" hidden></p>
+
+        <div class="estado-hoy">
+          <div><span>Entrada de hoy</span><strong id="hoyEntrada">—</strong></div>
+          <div><span>Salida de hoy</span><strong id="hoySalida">—</strong></div>
+          <div><span>Estado</span><strong id="hoyEstado">—</strong></div>
+        </div>
+      </section>
+
+      <!-- Registro manual -->
+      <section class="card">
+        <h2>Registro manual</h2>
+        <p class="muted">Si olvidaste marcar, ingresa la fecha y tus horas de entrada y salida.</p>
+        <form id="formManual" novalidate>
+          <div class="form-grid">
+            <div class="campo">
+              <label for="manFecha">Fecha</label>
+              <input type="date" id="manFecha">
+              <span class="error" id="errManFecha"></span>
+            </div>
+            <div class="campo">
+              <label for="manEntrada">Hora de entrada</label>
+              <input type="time" id="manEntrada">
+              <span class="error" id="errManEntrada"></span>
+            </div>
+            <div class="campo">
+              <label for="manSalida">Hora de salida (opcional)</label>
+              <input type="time" id="manSalida">
+              <span class="error" id="errManSalida"></span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primario">Guardar registro</button>
+          <p class="alerta" id="msgManual" role="status" hidden></p>
+        </form>
+      </section>
+
+      <!-- Justificaciones -->
+      <section class="card">
+        <h2>¿Llegaste tarde o faltaste?</h2>
+        <p class="muted">Puedes justificarlo de dos maneras: enviar la justificación desde tu historial (botón "Justificar"), o descargar el formato en PDF (ya incluye tus datos), llenarlo, firmarlo y entregarlo en Secretaría.</p>
+        <div class="acciones izq">
+          <button type="button" class="btn btn-secundario" id="btnPdfBlanco">Descargar formato en PDF</button>
+        </div>
+        <p class="alerta" id="msgJustEmp" role="status" hidden></p>
+      </section>
+
+      <!-- Historial personal -->
+      <section class="card">
+        <h2>Mi historial de asistencia</h2>
+        <p class="muted">Últimos 10 días laborables. Solo se muestran tus registros personales.</p>
+        <div class="tabla-wrap" tabindex="0" role="region" aria-label="Historial de asistencia">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Hora de entrada</th>
+                <th>Hora de salida</th>
+                <th>Horas trabajadas</th>
+                <th>Horas extra</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyHistorial"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!--VISTA 3: PANEL DE TALENTO HUMANO-->
+  <div id="vistaAdmin" class="vista admin-layout" hidden>
+    <aside class="sidebar">
+      <div class="brand">
+        <strong>ULEAM</strong>
+        <span class="muted">Talento Humano</span>
+      </div>
+      <p class="nav-titulo">Administración</p>
+      <button type="button" class="nav-btn activo" data-sec="asistencia">Asistencia <span class="contador-nav" id="navPend" hidden></span></button>
+      <button type="button" class="nav-btn" data-sec="reportes">Reportes</button>
+      <button type="button" class="nav-btn" data-sec="extras">Horas extra</button>
+
+      <div class="sidebar-pie">
+        <strong id="adminNombre"></strong>
+        <p class="muted">Control de asistencia</p>
+        <button type="button" class="btn btn-secundario btn-chico" id="btnSalirAdmin">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+
+      <!-- Sección: Asistencia del día + justificaciones -->
+      <section id="secAsistencia" class="seccion">
+        <div class="sec-header">
+          <div>
+            <h1>Panel de Talento Humano</h1>
+            <p class="muted">Gestión de asistencia del personal</p>
+          </div>
+          <div class="filtros">
+            <div class="campo">
+              <label for="fFecha">Fecha</label>
+              <input type="date" id="fFecha">
+            </div>
+            <div class="campo">
+              <label for="fArea">Departamento / Área</label>
+              <select id="fArea"></select>
+            </div>
+            <div class="campo">
+              <label for="fNombre">Empleado</label>
+              <input type="text" id="fNombre" placeholder="Buscar por nombre">
+            </div>
+          </div>
+        </div>
+
+        <p class="error" id="errFecha"></p>
+        <p class="alerta" id="msgAdmin" role="status" hidden></p>
+        <!-- Justificaciones pendientes -->
+        <section class="card" id="cardPendientes" aria-labelledby="tituloPend" hidden>
+          <h2 id="tituloPend">Justificaciones pendientes de revisión</h2>
+          <p class="muted">Enviadas por el personal. Revísalas para aprobarlas o rechazarlas.</p>
+          <div class="tabla-wrap" tabindex="0" role="region" aria-label="Tabla de justificaciones pendientes">
+            <table>
+              <thead>
+                <tr>
+                  <th>Empleado</th>
+                  <th>Fecha</th>
+                  <th>Novedad</th>
+                  <th>Motivo</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyPendientes"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="resumen" id="resumenAsistencia"></div>
+
+        <div class="tabla-wrap" tabindex="0" role="region" aria-label="Asistencia de empleados">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Área</th>
+                <th>Hora de entrada</th>
+                <th>Hora de salida</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyAdmin"></tbody>
+          </table>
+        </div>
+        <p class="muted nota">Atrasado: entrada posterior al inicio del horario del cargo (Docente y Administrativo 08:00, Limpieza 06:00). Falta: sin registro de entrada en un día laborable.</p>
+      </section>
+
+      <!-- Sección: Reportes de asistencia -->
+      <section id="secReportes" class="seccion" hidden>
+        <div class="sec-header">
+          <div>
+            <h1>Reportes de asistencia</h1>
+            <p class="muted">Consulta la asistencia acumulada y compara por departamento</p>
+          </div>
+        </div>
+
+        <form id="formReporte" class="card filtros-card" novalidate>
+          <div class="filtros">
+            <div class="campo">
+              <label for="rInicio">Fecha de inicio</label>
+              <input type="date" id="rInicio">
+            </div>
+            <div class="campo">
+              <label for="rFin">Fecha de fin</label>
+              <input type="date" id="rFin">
+            </div>
+            <div class="campo">
+              <label for="rArea">Departamento</label>
+              <select id="rArea"></select>
+            </div>
+            <div class="botones-filtro">
+              <button type="button" class="btn btn-secundario" id="btnLimpiarR">Limpiar</button>
+              <button type="submit" class="btn btn-primario">Aplicar filtros</button>
+            </div>
+          </div>
+          <p class="error" id="errReporte"></p>
+        </form>
+
+        <div class="card">
+          <h2>Resumen por empleado</h2>
+          <p class="muted" id="subReporte"></p>
+          <div class="tabla-wrap" tabindex="0" role="region" aria-label="Resumen de asistencia por empleado">
+            <table>
+              <thead>
+                <tr>
+                  <th>Empleado</th>
+                  <th>Departamento</th>
+                  <th class="num">Días evaluados</th>
+                  <th class="num">Asistidos</th>
+                  <th class="num">Atrasos</th>
+                  <th class="num">Faltas</th>
+                  <th class="num">Justificadas</th>
+                  <th class="num">% asistencia</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyReporte"></tbody>
+              <tfoot id="tfootReporte"></tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Asistencia por departamento</h2>
+          <p class="muted">Días asistidos sobre días evaluados en el rango seleccionado</p>
+          <div id="grafico"></div>
+        </div>
+      </section>
+
+      <!-- Sección: Reporte de horas extra y pago -->
+      <section id="secExtras" class="seccion" hidden>
+        <div class="sec-header">
+          <div>
+            <h1>Horas extra y valores a pagar</h1>
+            <p class="muted">Tiempo trabajado después de la hora de salida del horario</p>
+          </div>
+        </div>
+
+        <form id="formExtras" class="card filtros-card" novalidate>
+          <div class="filtros">
+            <div class="campo">
+              <label for="eInicio">Fecha de inicio</label>
+              <input type="date" id="eInicio">
+            </div>
+            <div class="campo">
+              <label for="eFin">Fecha de fin</label>
+              <input type="date" id="eFin">
+            </div>
+            <div class="campo">
+              <label for="eArea">Departamento</label>
+              <select id="eArea"></select>
+            </div>
+            <div class="botones-filtro">
+              <button type="button" class="btn btn-secundario" id="btnLimpiarE">Limpiar</button>
+              <button type="submit" class="btn btn-primario">Calcular</button>
+            </div>
+          </div>
+          <p class="error" id="errExtras"></p>
+        </form>
+
+        <div class="card">
+          <h2>Detalle por empleado</h2>
+          <p class="muted" id="subExtras"></p>
+          <div class="tabla-wrap" tabindex="0" role="region" aria-label="Horas extra por empleado">
+            <table>
+              <thead>
+                <tr>
+                  <th>Empleado</th>
+                  <th>Departamento</th>
+                  <th>Cargo</th>
+                  <th class="num">Días con extra</th>
+                  <th class="num">Horas extra</th>
+                  <th class="num">Valor hora</th>
+                  <th class="num">Valor hora extra</th>
+                  <th class="num">Total a pagar</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyExtras"></tbody>
+              <tfoot id="tfootExtras"></tfoot>
+            </table>
+          </div>
+          <p class="muted nota">Valor hora extra = valor hora × 1,5 (recargo del 50 %). Los valores por hora son referenciales para la prueba del sistema.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!--VENTANA: JUSTIFICAR ATRASO / FALTA-->
+  <dialog id="dlgJustificar" aria-labelledby="tituloJust">
+    <form id="formJust" novalidate>
+      <h2 id="tituloJust">Justificar novedad</h2>
+      <div class="campo">
+        <label for="jEmpleado">Empleado</label>
+        <input type="text" id="jEmpleado" class="solo-lectura" readonly>
+      </div>
+      <div class="form-grid dos">
+        <div class="campo">
+          <label for="jFecha">Fecha</label>
+          <input type="text" id="jFecha" class="solo-lectura" readonly>
+        </div>
+        <div class="campo">
+          <label for="jTipo">Novedad</label>
+          <input type="text" id="jTipo" class="solo-lectura" readonly>
+        </div>
+      </div>
+      <div class="campo">
+        <label for="jMotivo">Motivo</label>
+        <select id="jMotivo">
+          <option value="">Selecciona un motivo</option>
+          <option>Enfermedad / cita médica</option>
+          <option>Calamidad doméstica</option>
+          <option>Trámite institucional</option>
+          <option>Comisión de servicios</option>
+          <option>Problema de transporte</option>
+          <option>Otro</option>
+        </select>
+        <span class="error" id="errJMotivo"></span>
+      </div>
+      <div class="campo">
+        <label for="jDetalle">Detalle de la justificación</label>
+        <textarea id="jDetalle" rows="3" maxlength="200" placeholder="Explica brevemente lo ocurrido (mínimo 10 caracteres)"></textarea>
+        <span class="contador" id="jContador">0/200</span>
+        <span class="error" id="errJDetalle"></span>
+      </div>
+      <div class="dialog-acciones">
+        <button type="button" class="btn btn-secundario" id="btnCancelarJust">Cancelar</button>
+        <button type="submit" class="btn btn-primario">Guardar justificación</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!--VENTANA: EMPLEADO ENVÍA SU JUSTIFICACIÓN-->
+  <dialog id="dlgEnviarJust" aria-labelledby="tituloEnvio">
+    <form id="formEnviarJust" novalidate>
+      <h2 id="tituloEnvio">Enviar justificación</h2>
+      <div class="form-grid dos">
+        <div class="campo">
+          <label for="ejFecha">Fecha</label>
+          <input type="text" id="ejFecha" class="solo-lectura" readonly>
+        </div>
+        <div class="campo">
+          <label for="ejTipo">Novedad</label>
+          <input type="text" id="ejTipo" class="solo-lectura" readonly>
+        </div>
+      </div>
+      <div class="campo">
+        <label for="ejMotivo">Motivo</label>
+        <select id="ejMotivo">
+          <option value="">Selecciona un motivo</option>
+          <option>Enfermedad / cita médica</option>
+          <option>Calamidad doméstica</option>
+          <option>Trámite institucional</option>
+          <option>Comisión de servicios</option>
+          <option>Problema de transporte</option>
+          <option>Otro</option>
+        </select>
+        <span class="error" id="errEjMotivo"></span>
+      </div>
+      <div class="campo">
+        <label for="ejDetalle">Detalle de la justificación</label>
+        <textarea id="ejDetalle" rows="3" maxlength="200" placeholder="Explica brevemente lo ocurrido (mínimo 10 caracteres)"></textarea>
+        <span class="contador" id="ejContador">0/200</span>
+        <span class="error" id="errEjDetalle"></span>
+      </div>
+      <div class="campo">
+        <label for="ejAdjunto">Documento de respaldo (opcional)</label>
+        <input type="file" id="ejAdjunto" accept=".pdf,.jpg,.jpeg,.png" data-desc="ayudaAdjunto">
+        <span class="ayuda" id="ayudaAdjunto">PDF, JPG o PNG. Máximo 2 MB.</span>
+        <span class="error" id="errEjAdjunto"></span>
+      </div>
+      <div class="dialog-acciones">
+        <button type="button" class="btn btn-secundario" id="btnCancelarEnvio">Cancelar</button>
+        <button type="button" class="btn btn-secundario" id="btnPdfJust">Descargar formato PDF</button>
+        <button type="submit" class="btn btn-primario">Enviar justificación</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!--VENTANA: TALENTO HUMANO REVISA UNA JUSTIFICACIÓN-->
+  <dialog id="dlgRevisar" aria-labelledby="tituloRevisar">
+    <form id="formRevisar" novalidate>
+      <h2 id="tituloRevisar">Revisar justificación</h2>
+      <div class="campo">
+        <label for="rvEmpleado">Empleado</label>
+        <input type="text" id="rvEmpleado" class="solo-lectura" readonly>
+      </div>
+      <div class="form-grid dos">
+        <div class="campo">
+          <label for="rvFecha">Fecha</label>
+          <input type="text" id="rvFecha" class="solo-lectura" readonly>
+        </div>
+        <div class="campo">
+          <label for="rvTipo">Novedad</label>
+          <input type="text" id="rvTipo" class="solo-lectura" readonly>
+        </div>
+      </div>
+      <div class="campo">
+        <label for="rvMotivo">Motivo</label>
+        <input type="text" id="rvMotivo" class="solo-lectura" readonly>
+      </div>
+      <div class="campo">
+        <label for="rvDetalle">Detalle enviado por el empleado</label>
+        <textarea id="rvDetalle" rows="3" class="solo-lectura" readonly></textarea>
+      </div>
+      <div class="campo">
+        <label for="rvAdjunto">Documento de respaldo</label>
+        <input type="text" id="rvAdjunto" class="solo-lectura" readonly>
+      </div>
+      <div class="campo">
+        <label for="rvComentario">Comentario de Talento Humano</label>
+        <textarea id="rvComentario" rows="2" maxlength="200" placeholder="Obligatorio para rechazar (mínimo 10 caracteres)"></textarea>
+        <span class="error" id="errRvComentario"></span>
+      </div>
+      <div class="dialog-acciones">
+        <button type="button" class="btn btn-secundario" id="btnCancelarRev">Cancelar</button>
+        <button type="button" class="btn btn-secundario" id="btnRechazar">Rechazar</button>
+        <button type="button" class="btn btn-primario" id="btnAprobar">Aprobar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
