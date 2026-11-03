@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro de Estudiantes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="contenedor">
+    <h1>Registro de Estudiantes</h1>
+
+    <!--FORMULARIO-->
+    <form id="formEstudiante" novalidate>
+      <div class="grid">
+        <div class="campo">
+          <label for="cedula">Cédula</label>
+          <input type="text" id="cedula" maxlength="10" inputmode="numeric" placeholder="1312345678">
+          <span class="error" id="error-cedula"></span>
+        </div>
+        <div class="campo">
+          <label for="apellidos">Apellidos</label>
+          <input type="text" id="apellidos" placeholder="Pérez Loor">
+          <span class="error" id="error-apellidos"></span>
+        </div>
+        <div class="campo">
+          <label for="nombres">Nombres</label>
+          <input type="text" id="nombres" placeholder="Juan Carlos">
+          <span class="error" id="error-nombres"></span>
+        </div>
+        <div class="campo">
+          <label for="direccion">Dirección</label>
+          <input type="text" id="direccion" placeholder="Av. 4 de Noviembre y Calle 12">
+          <span class="error" id="error-direccion"></span>
+        </div>
+        <div class="campo">
+          <label for="telefono">Teléfono</label>
+          <input type="text" id="telefono" maxlength="10" inputmode="numeric" placeholder="0991234567">
+          <span class="error" id="error-telefono"></span>
+        </div>
+        <div class="campo">
+          <label for="correo">Correo electrónico</label>
+          <input type="text" id="correo" placeholder="juan.perez@correo.com">
+          <span class="error" id="error-correo"></span>
+        </div>
+        <div class="campo">
+          <label for="facultad">Facultad</label>
+          <input type="text" id="facultad" placeholder="Ciencias de la Vida y Tecnología">
+          <span class="error" id="error-facultad"></span>
+        </div>
+        <div class="campo">
+          <label for="nivel">Nivel</label>
+          <select id="nivel">
+            <option value="">Selecciona un nivel</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+          <span class="error" id="error-nivel"></span>
+        </div>
+        <div class="campo">
+          <label for="paralelo">Paralelo</label>
+          <input type="text" id="paralelo" maxlength="1" placeholder="A">
+          <span class="error" id="error-paralelo"></span>
+        </div>
+      </div>
+
+      <div class="botones">
+        <button type="submit" class="btn btn-primario">Registrar</button>
+        <button type="reset" class="btn btn-secundario">Limpiar</button>
+      </div>
+      <p id="mensaje" role="status" hidden></p>
+    </form>
+
+    <!--TABLA DE ESTUDIANTES-->
+    <h2>Estudiantes registrados</h2>
+    <div class="tabla-wrap" tabindex="0" role="region" aria-label="Tabla de estudiantes registrados">
+      <table>
+        <thead>
+          <tr>
+            <th>Cédula</th>
+            <th>Apellidos</th>
+            <th>Nombres</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Facultad</th>
+            <th>Nivel</th>
+            <th>Paralelo</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyEstudiantes"></tbody>
+      </table>
+    </div>
+    <div class="botones">
+      <button type="button" class="btn btn-secundario" id="btnVaciar">Vaciar registros</button>
+    </div>
+
+    <!--JSON ALMACENADO-->
+    <h2>JSON almacenado en localStorage</h2>
+    <pre id="jsonAlmacenado" tabindex="0" aria-label="JSON almacenado en localStorage"></pre>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
