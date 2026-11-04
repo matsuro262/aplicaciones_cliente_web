@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taller CRUD - Cliente Web</title>
+    <link rel="stylesheet" href="estilos.css" />
+</head>
+
+<body>
+    <div class="contenedor">
+        <header>
+            <h1>Gestión de Libros</h1>
+            <p>Taller práctico de aplicaciones web front-end</p>
+        </header>
+        <main>
+            <section class="seccion-formulario">
+                <h2>Añadir / Editar Libro</h2>
+                <form id="formulario-crud">
+                    <input type="hidden" id="id-elemento" />
+
+                    <div class="grupo-formulario">
+                        <label for="titulo">Título del Libro:</label>
+                        <input type="text" id="titulo" required placeholder="Ej. Cien años de
+soledad" />
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="autor">Autor:</label>
+                        <input type="text" id="autor" required placeholder="Ej. Gabriel García
+Márquez" />
+                    </div>
+                    <button type="submit" id="boton-guardar">Guardar Libro</button>
+                    <button type="button" id="boton-cancelar" class="oculto">
+                        Cancelar Edición
+                    </button>
+                </form>
+            </section>
+            <section class="seccion-tabla">
+                <h2>Listado de Libros</h2>
+                <div class="tabla-responsiva">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpo-tabla"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="aplicacion.js"></script>
+</body>
+
+</html>

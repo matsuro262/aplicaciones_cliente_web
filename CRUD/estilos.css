@@ -1,0 +1,125 @@
+:root {
+    --color-primario: #2c3e50;
+    --color-secundario: #3498db;
+    --color-exito: #2ecc71;
+    --color-peligro: #e74c3c;
+    --fondo-claro: #f8f9fa;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--fondo-claro);
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.contenedor {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+@media (min-width: 768px) {
+    main {
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+/* Estilos del Formulario */
+.seccion-formulario,
+.seccion-tabla {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.grupo-formulario {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    background-color: var(--color-secundario);
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#boton-guardar {
+    background-color: var(--color-exito);
+    width: 100%;
+}
+
+.btn-editar {
+    background-color: var(--color-secundario);
+    margin-right: 5px;
+}
+
+.btn-eliminar {
+    background-color: var(--color-peligro);
+}
+
+#boton-cancelar {
+    background-color: #7f8c8d;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.oculto {
+    display: none;
+}
+
+/* Estilos de la Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: var(--color-primario);
+    color: white;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
